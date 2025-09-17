@@ -1,8 +1,8 @@
-import { Form } from "react-router";
+import { Form, useFetcher } from "react-router";
 
 import type { ContactRecord } from "../data";
 
-import { getContact } from "../data";
+import { getContact, updateContact } from "../data";
 import type { Route } from "./+types/contact";
 
 export async function loader({ params }: Route.LoaderArgs) {
@@ -58,7 +58,7 @@ export default function Contact({ loaderData }: Route.ComponentProps) {
             method="post"
             onSubmit={(event) => {
               const response = confirm(
-                "Please confirm you want to delete this record.",
+                "このレコードを削除してもよろしいですか？",
               );
               if (!response) {
                 event.preventDefault();
@@ -73,18 +73,28 @@ export default function Contact({ loaderData }: Route.ComponentProps) {
   );
 }
 
+export async function action({ params, request }: Route.ActionArgs) {
+  const formData = await request.formData();
+  return updateContact(params.contactId, {
+    favorite: formData.get("favorite") === "true",
+  });
+}
+
 function Favorite({ contact }: { contact: Pick<ContactRecord, "favorite"> }) {
-  const favorite = contact.favorite;
+  const fetcher = useFetcher();
+  const favorite = fetcher.formData
+    ? fetcher.formData.get("favorite") === "true"
+    : contact.favorite;
 
   return (
-    <Form method="post">
+    <fetcher.Form method="post">
       <button
-        aria-label={favorite ? "Remove from favorites" : "Add to favorites"}
+        aria-label={favorite ? "お気に入りから削除" : "お気に入りに追加"}
         name="favorite"
         value={favorite ? "false" : "true"}
       >
         {favorite ? "★" : "☆"}
       </button>
-    </Form>
+    </fetcher.Form>
   );
 }
