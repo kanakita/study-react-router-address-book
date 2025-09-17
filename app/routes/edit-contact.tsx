@@ -3,6 +3,38 @@ import type { Route } from "./+types/edit-contact";
 
 import { getContact, updateContact } from "../data";
 
+export function meta({ data }: Route.MetaArgs) {
+  const contact = data?.contact;
+
+  if (!contact) {
+    return [
+      { title: "Contact Not Found - React Router Contacts" },
+      { name: "description", content: "Contact not found" },
+    ];
+  }
+
+  // 名前があるかどうかで判断
+  const hasName = contact.first || contact.last;
+  const displayName = hasName
+    ? `${contact.first || ""} ${contact.last || ""}`.trim()
+    : "New Contact";
+
+  const titlePrefix = hasName ? "Edit" : "Add";
+  const titleText = hasName
+    ? `${titlePrefix} ${displayName}`
+    : `${titlePrefix} New Contact`;
+
+  return [
+    { title: `${titleText} - React Router Contacts` },
+    {
+      name: "description",
+      content: hasName
+        ? `Edit contact information for ${displayName}`
+        : "Add new contact information",
+    },
+  ];
+}
+
 export async function action({ params, request }: Route.ActionArgs) {
   const formData = await request.formData();
   const updates = Object.fromEntries(formData);

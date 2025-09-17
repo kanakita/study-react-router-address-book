@@ -4,6 +4,7 @@ import {
   ScrollRestoration,
   isRouteErrorResponse,
   redirect,
+  Meta,
 } from "react-router";
 import type { Route } from "./+types/root";
 
@@ -14,6 +15,17 @@ import { createEmptyContact } from "./data";
 export async function action() {
   const contact = await createEmptyContact();
   return redirect(`/contacts/${contact.id}/edit`);
+}
+
+export function meta({}: Route.MetaArgs) {
+  return [
+    { title: "React Router Contacts" },
+    {
+      name: "description",
+      content: "A contact management app built with React Router",
+    },
+    { name: "viewport", content: "width=device-width, initial-scale=1" },
+  ];
 }
 
 // existing imports and exports
@@ -32,6 +44,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="stylesheet" href={appStylesHref} />
+        <Meta />
       </head>
       <body>
         {children}

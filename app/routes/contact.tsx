@@ -5,6 +5,27 @@ import type { ContactRecord } from "../data";
 import { getContact, updateContact } from "../data";
 import type { Route } from "./+types/contact";
 
+// loaderDataを使ったmeta関数
+export function meta({ data }: Route.MetaArgs) {
+  // loaderから返されたデータを使用
+  const contact = data?.contact;
+
+  if (!contact) {
+    return [
+      { title: "Contact Not Found - React Router Contacts" },
+      { name: "description", content: "Contact not found" },
+    ];
+  }
+
+  return [
+    { title: `${contact.first} ${contact.last} - React Router Contacts` },
+    {
+      name: "description",
+      content: `Contact details for ${contact.first} ${contact.last}`,
+    },
+  ];
+}
+
 export async function loader({ params }: Route.LoaderArgs) {
   const contact = await getContact(params.contactId);
   if (!contact) {

@@ -1,4 +1,20 @@
 import { Link } from "react-router";
+import type { Route } from "./+types/home";
+
+export function meta({}: Route.MetaArgs) {
+  return [
+    { title: "About - React Router Contacts" },
+    {
+      name: "description",
+      content: "Learn about this React Router tutorial application",
+    },
+    { property: "og:title", content: "About React Router Contacts" },
+    {
+      property: "og:description",
+      content: "A tutorial app showcasing React Router features",
+    },
+  ];
+}
 
 export default function About() {
   return (
