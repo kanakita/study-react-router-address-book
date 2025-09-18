@@ -1,7 +1,8 @@
 import { Form, redirect, useNavigate } from "react-router";
 import type { Route } from "./+types/edit-contact";
 
-import { getContact, updateContact } from "../data";
+import { getContact, updateContact } from "@/data";
+import { Button } from "@/components/ui/button";
 
 export function meta({ data }: Route.MetaArgs) {
   const contact = data?.contact;
@@ -98,10 +99,12 @@ export default function EditContact({ loaderData }: Route.ComponentProps) {
         <textarea defaultValue={contact.notes} name="notes" rows={6} />
       </label>
       <p>
-        <button type="submit">保存</button>
-        <button onClick={() => navigate(-1)} type="button">
+        <Button variant="outlinePrimary" type="submit">
+          保存
+        </Button>
+        <Button variant="outline" onClick={() => navigate(-1)} type="button">
           キャンセル
-        </button>
+        </Button>
       </p>
     </Form>
   );

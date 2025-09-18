@@ -1,9 +1,10 @@
-import { Form, useFetcher } from "react-router";
+import { Form, useFetcher, Link } from "react-router";
 
-import type { ContactRecord } from "../data";
+import type { ContactRecord } from "@/data";
 
-import { getContact, updateContact } from "../data";
+import { getContact, updateContact } from "@/data";
 import type { Route } from "./+types/contact";
+import { Button } from "@/components/ui/button";
 
 // loaderDataを使ったmeta関数
 export function meta({ data }: Route.MetaArgs) {
@@ -71,7 +72,9 @@ export default function Contact({ loaderData }: Route.ComponentProps) {
 
         <div>
           <Form action="edit">
-            <button type="submit">Edit</button>
+            <Button variant="outlinePrimary" type="submit">
+              Edit
+            </Button>
           </Form>
 
           <Form
@@ -86,7 +89,9 @@ export default function Contact({ loaderData }: Route.ComponentProps) {
               }
             }}
           >
-            <button type="submit">Delete</button>
+            <Button variant="outlineDanger" type="submit">
+              Delete
+            </Button>
           </Form>
         </div>
       </div>

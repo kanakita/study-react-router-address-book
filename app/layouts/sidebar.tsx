@@ -9,6 +9,7 @@ import {
 import { getContacts } from "../data";
 import type { Route } from "./+types/sidebar";
 import { useEffect } from "react";
+import { Button } from "@/components/ui/button";
 
 export async function loader({ request }: Route.LoaderArgs) {
   const url = new URL(request.url);
@@ -61,7 +62,9 @@ export default function SidebarLayout({ loaderData }: Route.ComponentProps) {
             <div aria-hidden hidden={!searching} id="search-spinner" />
           </Form>
           <Form method="post">
-            <button type="submit">New</button>
+            <Button type="submit" variant="outline">
+              New
+            </Button>
           </Form>
         </div>
         <nav>
